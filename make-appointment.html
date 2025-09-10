@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,7 +23,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
     header img {
@@ -36,7 +37,7 @@
       background: #fff;
       padding: 2rem;
       border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     }
 
     form label {
@@ -101,7 +102,8 @@
       margin-top: 20px;
     }
 
-    table th, table td {
+    table th,
+    table td {
       border: 1px solid #ccc;
       padding: 8px;
       text-align: left;
@@ -110,8 +112,22 @@
     table th {
       background: #f4f4f4;
     }
+    .time-range {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.time-range input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
   </style>
 </head>
+
 <body>
   <header>
     <h1 class="sitename">Care-Connect</h1>
@@ -131,8 +147,19 @@
       <label for="date">Preferred Date:</label>
       <input type="date" id="date" name="date" required>
 
-      <label for="time">Preferred Time:</label>
-      <input type="time" id="time" name="time" required>
+      <label for="timeRange">Preferred Time:</label>
+<select id="timeRange" name="timeRange" required>
+  <option value="">-- Select Time Range --</option>
+  <option value="10-11">10 Am - 11 AM</option>
+  <option value="11-12">11 Am - 12 AM</option>
+  <option value="12-1">12 Am - 1 PM</option>
+  <option value="2-3">2 PM - 3 PM</option>
+  <option value="3-4">3 PM - 4 PM</option>
+  <option value="4-5">4 PM - 5 PM</option>
+  <option value="5-6">5 PM - 6 PM</option>
+</select>
+
+
 
       <label for="department">Department:</label>
       <select id="department" name="department" required>
@@ -163,7 +190,7 @@
       const userName = localStorage.getItem("userName");
       const userEmail = localStorage.getItem("userEmail");
 
-      if(userName && userEmail){
+      if (userName && userEmail) {
         document.getElementById("name").value = userName;
         document.getElementById("email").value = userEmail;
       } else {
@@ -234,7 +261,7 @@
       showDoctors(this.value);
     });
 
-    document.getElementById("appointmentForm").addEventListener("submit", function(e) {
+    document.getElementById("appointmentForm").addEventListener("submit", function (e) {
       e.preventDefault();
 
       const selectedDoctor = document.querySelector('input[name="selectedDoctor"]:checked');
@@ -248,7 +275,7 @@
         userEmail: document.getElementById("email").value,
         phone: document.getElementById("phone").value,
         date: document.getElementById("date").value,
-        time: document.getElementById("time").value,
+        timeRange: document.getElementById("timeRange").value,
         department: document.getElementById("department").value,
         doctor: selectedDoctor.value,
         message: document.getElementById("message").value
@@ -274,4 +301,5 @@
     loadDoctorsData();
   </script>
 </body>
+
 </html>
