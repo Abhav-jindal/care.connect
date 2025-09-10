@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup - CareConnect</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script src="assets/js/main.js" defer></script>
+  <style>
+    /* Center form on screen with background image */
+    body.index-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('assets/img/hero-bg.jpg') no-repeat center center/cover;
+      font-family: var(--default-font);
+    }
+
+    .auth-container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .auth-container h2 {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    .auth-form .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .auth-form .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: #0d6efd;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .auth-form .btn:hover {
+      background-color: #0b5ed7;
+    }
+
+    .switch-link {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .switch-link a {
+      color: #0d6efd;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .switch-link a:hover {
+      text-decoration: underline;
+    }
+
+    .site-header {
+      display: none; /* hide top header for clean form look */
+    }
+  </style>
+</head>
+<body class="index-page">
+  <main class="auth-container">
+    <h2>Signup for CareConnect</h2>
+    <form class="auth-form" id="signupForm">
+      <input type="text" placeholder="Full Name" required class="form-input" id="fullName">
+      <input type="email" placeholder="Email" required class="form-input" id="email">
+      <input type="password" placeholder="Password" required class="form-input" id="password">
+      <button type="submit" class="btn">Signup</button>
+    </form>
+
+    <p class="switch-link">
+      Already have an account? 
+      <a href="login.html">Login here</a>
+    </p>
+  </main>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      if (localStorage.getItem("user_" + email)) {
+        alert("An account with this email already exists!");
+        return;
+      }
+
+      // Save as JSON
+      const userData = { fullName, email, password };
+      localStorage.setItem("user_" + email, JSON.stringify(userData));
+
+      alert("Signup successful! You can now login.");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

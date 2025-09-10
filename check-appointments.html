@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Appointments - CareConnect</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <style>
+    body {
+      font-family: var(--font-primary, Arial, sans-serif);
+      background: var(--background-color, #f9f9f9);
+      color: var(--default-color, #333);
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: var(--primary-color, #2a7ae2);
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    header img {
+      height: 100px;
+      width: auto;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    table th {
+      background: #f4f4f4;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="sitename">Care-Connect</h1>
+    <img src="assets/img/logo.png" alt="CareConnect Logo">
+  </header>
+
+  <main>
+    <h2 style="text-align:center;">Your Appointments</h2>
+    <table id="appointmentsTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Department</th>
+          <th>Doctor</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const userEmail = localStorage.getItem("userEmail");
+      if(!userEmail){
+        alert("User not logged in!");
+        window.location.href = "login.html";
+      }
+
+      const allAppointments = JSON.parse(localStorage.getItem("appointments") || "[]");
+      const userAppointments = allAppointments.filter(a => a.userEmail === userEmail);
+
+      const tbody = document.querySelector("#appointmentsTable tbody");
+      if(userAppointments.length === 0){
+        tbody.innerHTML = "<tr><td colspan='8' style='text-align:center;'>No appointments found.</td></tr>";
+      } else {
+        tbody.innerHTML = userAppointments.map(a => `
+          <tr>
+            <td>${a.userName}</td>
+            <td>${a.userEmail}</td>
+            <td>${a.phone}</td>
+            <td>${a.date}</td>
+            <td>${a.time}</td>
+            <td>${a.department}</td>
+            <td>${a.doctor}</td>
+            <td>${a.message}</td>
+          </tr>
+        `).join("");
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - CareConnect</title>
+  <link rel="stylesheet" href="assets/css/main.css">
+  <script src="assets/js/main.js" defer></script>
+  <style>
+    /* Center form on screen with background image */
+    body.index-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: url('assets/img/hero-bg.jpg') no-repeat center center/cover;
+      font-family: var(--default-font);
+    }
+
+    .auth-container {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 40px 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+    }
+    .logo-container {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    .logo{
+      max-width: 100px;
+      height: auto;
+      border-radius: 50%;
+    }
+
+    .auth-container h2 {
+      font-family: var(--heading-font);
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #333;
+    }
+
+    .auth-form .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .auth-form .btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      background-color: #0d6efd; 
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .auth-form .btn:hover {
+      background-color: #0b5ed7;
+    }
+
+    .switch-link {
+      margin-top: 15px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .switch-link a {
+      color: #0d6efd;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .switch-link a:hover {
+      text-decoration: underline;
+    }
+
+    .site-header {
+      display: none; /* hide top header for clean form look */
+    }
+  </style>
+</head>
+<body class="index-page">
+  <main class="auth-container">
+     <div class="logo-container">
+    <img src="assets/img/logo.png" alt="CareConnect Logo" class="logo">
+  </div>
+    <h2>Login to CareConnect</h2>
+    <form class="auth-form" id="loginForm">
+      <input type="email" placeholder="Email" required class="form-input" id="email">
+      <input type="password" placeholder="Password" required class="form-input" id="password">
+      <button type="submit" class="btn">Login</button>
+    </form>
+
+    <p class="switch-link">
+      Don’t have an account? 
+      <a href="signup.html">Sign up here</a>
+    </p>
+  </main>
+
+  <script>
+    // Hardcode admin account
+    const adminAccount = {
+      email: "admin@careconnect.com",
+      password: "admin123",
+      name: "Admin"
+    };
+    localStorage.setItem("adminAccount", JSON.stringify(adminAccount));
+
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      // Check if admin login
+      const admin = JSON.parse(localStorage.getItem("adminAccount"));
+      if (admin && email === admin.email && password === admin.password) {
+        localStorage.setItem("userName", admin.name);
+        localStorage.setItem("userEmail", admin.email);
+        localStorage.setItem("userPassword", admin.password);
+        window.location.href = "admin-dashboard.html";
+        return;
+      }
+
+      // Check normal users
+      const savedUser = localStorage.getItem("user_" + email);
+      if (!savedUser) {
+        alert("No account found with this email!");
+        return;
+      }
+
+      const userData = JSON.parse(savedUser);
+      if (userData.password === password) {
+        localStorage.setItem("userName", userData.fullName);
+        localStorage.setItem("userEmail", email);
+        window.location.href = "make-appointment.html";
+      } else {
+        alert("Invalid password!");
+      }
+    });
+  </script>
+</body>
+</html>
